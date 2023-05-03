@@ -1,10 +1,10 @@
-package edu.pet.tasktrackerapi.service;
+package edu.pet.tasktrackerapi.auth.service;
 
-import edu.pet.tasktrackerapi.auth.AuthenticationRequest;
-import edu.pet.tasktrackerapi.auth.AuthenticationResponse;
-import edu.pet.tasktrackerapi.auth.RegisterRequest;
-import edu.pet.tasktrackerapi.model.Role;
-import edu.pet.tasktrackerapi.model.User;
+import edu.pet.tasktrackerapi.auth.dto.AuthenticationRequest;
+import edu.pet.tasktrackerapi.auth.dto.AuthenticationResponse;
+import edu.pet.tasktrackerapi.auth.dto.RegisterRequest;
+import edu.pet.tasktrackerapi.api.model.Role;
+import edu.pet.tasktrackerapi.api.model.User;
 import edu.pet.tasktrackerapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -52,5 +52,9 @@ public class AuthenticationService {
                 .builder()
                 .token(jwtToken)
                 .build();
+    }
+
+    public boolean userExists(String username){
+        return userRepository.existsUserByUsername(username);
     }
 }

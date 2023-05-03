@@ -1,4 +1,4 @@
-package edu.pet.tasktrackerapi.service;
+package edu.pet.tasktrackerapi.auth.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

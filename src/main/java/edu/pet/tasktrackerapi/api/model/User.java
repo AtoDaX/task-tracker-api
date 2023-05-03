@@ -1,4 +1,4 @@
-package edu.pet.tasktrackerapi.model;
+package edu.pet.tasktrackerapi.api.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
