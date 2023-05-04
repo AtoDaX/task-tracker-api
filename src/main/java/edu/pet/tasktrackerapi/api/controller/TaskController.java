@@ -1,10 +1,8 @@
 package edu.pet.tasktrackerapi.api.controller;
 
 import edu.pet.tasktrackerapi.api.dto.TaskDto;
-import edu.pet.tasktrackerapi.api.model.Task;
 import edu.pet.tasktrackerapi.api.model.User;
 import edu.pet.tasktrackerapi.api.service.TaskService;
-import edu.pet.tasktrackerapi.api.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -35,18 +33,26 @@ public class TaskController {
 
 
     //TODO implement
-    @PutMapping(path = "/{uuid}", produces = "application/json")
-    public ResponseEntity<UUID> updateTask(@AuthenticationPrincipal User user,
+    @PutMapping(produces = "application/json")
+    public ResponseEntity<TaskDto> updateTask(@AuthenticationPrincipal User user,
                                            @RequestBody @Valid TaskDto taskDto){
-        return null;
+        taskService.updateTaskIfBelongsToUser(user, taskDto);
+
+        return ResponseEntity.ok(taskDto);
     }
 
     @DeleteMapping(path = "/{uuid}", produces = "application/json")
     public ResponseEntity<UUID> deleteTask(@AuthenticationPrincipal User user,
                                      @PathVariable UUID uuid){
-
         taskService.deleteTask(user, uuid);
 
         return ResponseEntity.ok(uuid);
+    }
+
+    @GetMapping(path = "/not-finished",produces = "application/json")
+
+    public ResponseEntity<Integer> countNotCompleted(@AuthenticationPrincipal User user){
+        Integer count = taskService.getNumberOfNotCompletedTasks(user);
+        return ResponseEntity.ok(count);
     }
 }
