@@ -33,9 +33,10 @@ public class AuthenticationController {
                             mediaType = "application/json",
                             examples = {
                                     @ExampleObject(
-                                            value = "{\n" +
-                                                    "    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlIiwiaWF0IjoxNjgzMDc2MzUwLCJleHAiOjE2ODMwNzc3OTB9.gg4XpZ7HMqSbCjV4eBw7Wluoe2D23goB68D9gxG-ntM\"\n" +
-                                                    "}"
+                                            value = """
+                                                    {
+                                                        "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlIiwiaWF0IjoxNjgzMDc2MzUwLCJleHAiOjE2ODMwNzc3OTB9.gg4XpZ7HMqSbCjV4eBw7Wluoe2D23goB68D9gxG-ntM"
+                                                    }"""
                                     )
                             }
                     )
@@ -60,9 +61,10 @@ public class AuthenticationController {
                                     mediaType = "application/json",
                                     examples = {
                                             @ExampleObject(
-                                                    value = "{\n" +
-                                                            "    \"token\": \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlIiwiaWF0IjoxNjgzMDc2MzUwLCJleHAiOjE2ODMwNzc3OTB9.gg4XpZ7HMqSbCjV4eBw7Wluoe2D23goB68D9gxG-ntM\"\n" +
-                                                            "}"
+                                                    value = """
+                                                            {
+                                                                "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlIiwiaWF0IjoxNjgzMDc2MzUwLCJleHAiOjE2ODMwNzc3OTB9.gg4XpZ7HMqSbCjV4eBw7Wluoe2D23goB68D9gxG-ntM"
+                                                            }"""
                                             )
                                     }
                             )

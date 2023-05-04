@@ -3,32 +3,51 @@ package edu.pet.tasktrackerapi.api.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.Hibernate;
 
-
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor(force = true)
 
 public class Task {
-    @NotNull
     @Id
     @Column(nullable = false)
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     private UUID id;
     @NotBlank
     @Column(nullable = false)
-    private String title;
+    private final String title;
     @NotNull
     @Column(nullable = false)
-    private String details;
+    private final String details;
     @Column(nullable = false)
     private boolean completed;
-    @NotNull
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
-    @ManyToOne
-    private User owner;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Task task = (Task) o;
+        return getId() != null && Objects.equals(getId(), task.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
 
 
 }

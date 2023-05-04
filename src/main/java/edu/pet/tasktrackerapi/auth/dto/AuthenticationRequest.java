@@ -3,11 +3,9 @@ package edu.pet.tasktrackerapi.auth.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @NoArgsConstructor

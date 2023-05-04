@@ -1,34 +1,40 @@
 package edu.pet.tasktrackerapi.api.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+
 @Entity
 @Table(name = "tt_user")
-
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
-@NoArgsConstructor
+@NoArgsConstructor(force = true)
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class User implements UserDetails {
     @Id
     @GeneratedValue
     private Long id;
-
-    private String username;
-    private String password;
-    @OneToMany
-    List<Task> tasks;
+    @Column
+    private final String username;
+    @Column
+    private final  String password;
+    @Column
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
+    private final List<Task> tasks = new ArrayList<>();
+    @Column
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private final Role role;
 
 
     @Transient
@@ -55,5 +61,18 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        User user = (User) o;
+        return getId() != null && Objects.equals(getId(), user.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
