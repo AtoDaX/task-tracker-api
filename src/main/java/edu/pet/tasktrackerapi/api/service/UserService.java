@@ -18,7 +18,7 @@ public class UserService {
         return modelMapper.map(getUserEntity(user.getId()), UserDto.class);
     }
 
-    private User getUserEntity(Long id){
+    protected User getUserEntity(Long id){
         //todo throw ex
         return userRepository.findById(id).orElseThrow();
     }

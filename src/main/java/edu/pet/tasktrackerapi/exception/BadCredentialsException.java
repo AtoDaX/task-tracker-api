@@ -1,6 +1,8 @@
 package edu.pet.tasktrackerapi.exception;
 
-public class BadCredentialsException extends RuntimeException{
+import java.util.function.Supplier;
+
+public class BadCredentialsException extends RuntimeException {
     public BadCredentialsException(){
         super();
     }

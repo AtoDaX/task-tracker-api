@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Schema(description = "Ответ сервера на запрос регистрации/аутентификации")
+@Schema(description = "Server response for authentication/registration request")
 public class AuthenticationResponse {
-    @Schema(description = "JWT-токен")
+    @Schema(description = "JWT-token")
     private String token;
 }

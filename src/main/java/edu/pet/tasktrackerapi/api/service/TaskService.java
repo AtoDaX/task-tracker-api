@@ -1,5 +1,6 @@
 package edu.pet.tasktrackerapi.api.service;
 
+import edu.pet.tasktrackerapi.api.dto.NewTaskRequest;
 import edu.pet.tasktrackerapi.api.dto.TaskDto;
 import edu.pet.tasktrackerapi.api.model.Task;
 import edu.pet.tasktrackerapi.api.model.User;
@@ -20,11 +21,11 @@ public class TaskService {
     private final TaskRepository taskRepository;
     private final ModelMapper modelMapper;
 
-    public UUID createTask(User user, TaskDto taskDto){
+    public UUID createTask(User user, NewTaskRequest newTaskRequest){
         Task newTask = Task
                 .builder()
-                .title(taskDto.getTitle())
-                .details(taskDto.getDetails())
+                .title(newTaskRequest.getTitle())
+                .details(newTaskRequest.getDetails())
                 .completed(false)
                 .user(user)
                 .build();
@@ -42,14 +43,16 @@ public class TaskService {
         return taskRepository.getTasksByUser_Id(user.getId());
     }
 
+
     public void updateTaskIfBelongsToUser(User user, TaskDto taskDto) {
         if (taskRepository.existsByUserAndId(user, taskDto.getId())){
             updateTask(taskDto);
         }
     }
-    private void updateTask(TaskDto task){
+    protected void updateTask(TaskDto task){
         taskRepository.update(task.getId(), task.getTitle(), task.getDetails(), task.isCompleted());
     }
+
 
     @Transactional
     public void deleteTask(User user, UUID uuid){
@@ -59,9 +62,10 @@ public class TaskService {
             throw new NotFoundException("No task with such id");
         }
     }
-    private void deleteTaskByUUID(UUID uuid){
+    protected void deleteTaskByUUID(UUID uuid){
         taskRepository.deleteTaskById(uuid);
     }
+
 
     public int getNumberOfNotCompletedTasks(User user){
         return taskRepository.countTasksByUserAndCompleted(user, false);

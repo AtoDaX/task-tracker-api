@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(description = "Запрос на регистрацию")
+@Schema(description = "Information about registration request")
 public class RegisterRequest {
     @NotBlank
-    @Schema(description = "Имя пользователя")
+    @Schema(description = "Email")
     private String username;
     @NotBlank
-    @Schema(description = "Пароль, зашифрован BCryptPasswordEncoder")
+    @Schema(description = "Password")
     private String password;
 }

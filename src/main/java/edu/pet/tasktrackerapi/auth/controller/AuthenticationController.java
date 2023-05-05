@@ -36,7 +36,25 @@ public class AuthenticationController {
                                             value = """
                                                     {
                                                         "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleGFtcGxlIiwiaWF0IjoxNjgzMDc2MzUwLCJleHAiOjE2ODMwNzc3OTB9.gg4XpZ7HMqSbCjV4eBw7Wluoe2D23goB68D9gxG-ntM"
-                                                    }"""
+                                                    }
+                                                    """
+                                    )
+                            }
+                    )
+            ),
+            @ApiResponse(
+                    responseCode = "409",
+                    description = "Responds with an Conflict error if username is taken",
+                    content = @Content(
+                            mediaType = "application/json",
+                            examples = {
+                                    @ExampleObject(
+                                            value = """
+                                                    {
+                                                        "message": "This username is already taken!"
+                                                    }
+                                                    """
+
                                     )
                             }
                     )
@@ -52,7 +70,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.register(registerRequest));
     }
 
-    @Operation(description = "Аутентификация пользователя",
+    @Operation(description = "User authentication",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -68,13 +86,30 @@ public class AuthenticationController {
                                             )
                                     }
                             )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Responds with an Unauthorized error if username/password is invalid",
+                            content = @Content(
+                                    mediaType = "application/json",
+                                    examples = {
+                                            @ExampleObject(
+                                                    value = """
+                                                            {
+                                                                "message": "Bad credentials!"
+                                                            }
+                                                            """
+
+                                            )
+                                    }
+                            )
                     )
             })
     @PostMapping(value = "/authenticate", produces="application/json")
     public ResponseEntity<AuthenticationResponse> authenticate(
             @RequestBody AuthenticationRequest authenticationRequest
     ) {
-        if (!authenticationService.userExists(authenticationRequest.getUsername())){
+        if (!authenticationService.isCredentialsValid(authenticationRequest)){
             throw new BadCredentialsException();
         }
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
