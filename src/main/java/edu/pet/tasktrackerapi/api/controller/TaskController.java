@@ -62,11 +62,5 @@ public class TaskController {
         return ResponseEntity.ok(uuid);
     }
 
-    @GetMapping(path = "/not-finished",produces = "application/json")
-    @SecurityRequirement(name = "Bearer Authentication")
-    @Operation(description = "Number of not completed task")
-    public ResponseEntity<Integer> countNotCompleted(@AuthenticationPrincipal User user){
-        Integer count = taskService.getNumberOfNotCompletedTasks(user);
-        return ResponseEntity.ok(count);
-    }
+
 }
