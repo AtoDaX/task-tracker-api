@@ -1,17 +1,22 @@
 package edu.pet.tasktrackerapi.auth.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pet.tasktrackerapi.auth.dto.AuthenticationRequest;
 import edu.pet.tasktrackerapi.auth.dto.AuthenticationResponse;
+import edu.pet.tasktrackerapi.rabbitmq.dto.EmailDto;
 import edu.pet.tasktrackerapi.auth.dto.RegisterRequest;
 import edu.pet.tasktrackerapi.auth.service.AuthenticationService;
 import edu.pet.tasktrackerapi.exception.BadCredentialsException;
 import edu.pet.tasktrackerapi.exception.UserExistsException;
+import edu.pet.tasktrackerapi.rabbitmq.producer.RabbitMessageSender;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +28,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Tag(name = "JWT-security", description = "Methods for registration and authentication")
 public class AuthenticationController {
+
     private final AuthenticationService authenticationService;
+    private final RabbitMessageSender rabbitMessageSender;
     @Operation(description = "New user registration",
     responses = {
             @ApiResponse(
@@ -63,11 +70,15 @@ public class AuthenticationController {
     @PostMapping(value = "/register", produces="application/json")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterRequest registerRequest
-    ) {
+    ) throws JsonProcessingException {
         if (authenticationService.userExists(registerRequest.getUsername())){
             throw new UserExistsException();
         }
-        return ResponseEntity.ok(authenticationService.register(registerRequest));
+
+        AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest);
+        rabbitMessageSender.sendWelcomeEmail(registerRequest.getUsername());
+
+        return ResponseEntity.ok(authenticationResponse);
     }
 
     @Operation(description = "User authentication",

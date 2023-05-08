@@ -13,7 +13,12 @@ spring:
         format_sql: true
     database: postgresql
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-
+  rabbitmq:
+    username: rmuser
+    password: rmpassword
+    host: localhost
+    port: 5672
+    addresses: 127.0.0.1:5672
 
 
 

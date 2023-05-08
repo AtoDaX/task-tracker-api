@@ -2,6 +2,7 @@ package edu.pet.tasktrackerapi.exception_handler;
 
 import edu.pet.tasktrackerapi.exception.BadCredentialsException;
 import edu.pet.tasktrackerapi.exception.BadRequestException;
+import edu.pet.tasktrackerapi.exception.NotFoundException;
 import edu.pet.tasktrackerapi.exception.UserExistsException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import org.webjars.NotFoundException;
+
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler

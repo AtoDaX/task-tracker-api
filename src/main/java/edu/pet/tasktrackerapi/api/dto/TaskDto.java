@@ -15,15 +15,14 @@ import java.util.UUID;
  * A DTO for the {@link Task} entity
  */
 @Data
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @Schema(description = "Information about Task")
 public class TaskDto implements Serializable{
 
     private UUID id;
     @NotBlank
-    private final String title;
+    private String title;
     @NotNull
-    private final String details;
+    private String details;
     private boolean completed;
 }

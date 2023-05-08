@@ -13,11 +13,10 @@ import java.util.List;
  * A DTO for the {@link User} entity
  */
 @Data
-@NoArgsConstructor(force = true)
 @RequiredArgsConstructor
 @Schema(description = "Information about User")
 public class UserDto implements Serializable {
-    private final Long id;
-    private final String username;
-    private final List<TaskDto> tasks;
+    private Long id;
+    private String username;
+    private List<TaskDto> tasks;
 }

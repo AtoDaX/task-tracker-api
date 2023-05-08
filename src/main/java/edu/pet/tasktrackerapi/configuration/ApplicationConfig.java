@@ -1,5 +1,6 @@
 package edu.pet.tasktrackerapi.configuration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.pet.tasktrackerapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -51,6 +52,13 @@ public class ApplicationConfig {
 
     @Bean
     public ModelMapper modelMapper(){
+
+
         return new ModelMapper();
+    }
+
+    @Bean
+    public ObjectMapper objectMapper(){
+        return new ObjectMapper();
     }
 }

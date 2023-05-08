@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,6 +65,7 @@ public class UserController {
     @SecurityRequirement(name = "Bearer Authentication")
     @GetMapping(produces = "application/json")
     public ResponseEntity<UserDto> getUser(@AuthenticationPrincipal User user){
+
         return ResponseEntity.ok(userService.getUserInfo(user));
     }
 }
