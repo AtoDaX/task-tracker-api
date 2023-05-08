@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.Hibernate;
 
+import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -31,6 +32,9 @@ public class Task {
     private final String details;
     @Column(nullable = false)
     private boolean completed;
+    @Column(nullable = true)
+    private Timestamp completedAt;
+
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
