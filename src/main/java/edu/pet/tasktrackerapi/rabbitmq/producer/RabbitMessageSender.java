@@ -9,6 +9,8 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.net.ConnectException;
+
 @Component
 @RequiredArgsConstructor
 public class RabbitMessageSender {
@@ -20,7 +22,13 @@ public class RabbitMessageSender {
     public void sendWelcomeEmail(String receiverEmail) throws JsonProcessingException {
         String queueName = QueueName.EMAIL_SENDER_TASKS.toString();
         EmailDto emailDto = rabbitMessageCreator.createWelcomeMessage(receiverEmail);
-        rabbitTemplate.convertAndSend(queueName, objectMapper.writeValueAsString(emailDto));
+        try {
+            rabbitTemplate.convertAndSend(queueName, objectMapper.writeValueAsString(emailDto));
+        }catch (Exception e){
+            //log ex
+        }
+
+
     }
 
 
