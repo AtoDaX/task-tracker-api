@@ -4,9 +4,14 @@ import edu.pet.tasktrackerapi.exception.BadCredentialsException;
 import edu.pet.tasktrackerapi.exception.BadRequestException;
 import edu.pet.tasktrackerapi.exception.NotFoundException;
 import edu.pet.tasktrackerapi.exception.UserExistsException;
+import jakarta.validation.ValidationException;
+import org.springframework.context.annotation.Primary;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -58,6 +63,7 @@ public class RestResponseEntityExceptionHandler
         return handleExceptionInternal(ex, errorBody,
                 new HttpHeaders(), HttpStatus.NOT_FOUND, request);
     }
+    
 
 
 

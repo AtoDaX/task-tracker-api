@@ -15,13 +15,16 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -69,7 +72,7 @@ public class AuthenticationController {
         })
     @PostMapping(value = "/register", produces="application/json")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody RegisterRequest registerRequest
+            @RequestBody @Valid RegisterRequest registerRequest
     ) throws JsonProcessingException {
         if (authenticationService.userExists(registerRequest.getUsername())){
             throw new UserExistsException();
@@ -118,7 +121,7 @@ public class AuthenticationController {
             })
     @PostMapping(value = "/authenticate", produces="application/json")
     public ResponseEntity<AuthenticationResponse> authenticate(
-            @RequestBody AuthenticationRequest authenticationRequest
+            @RequestBody @Valid AuthenticationRequest authenticationRequest
     ) {
         if (!authenticationService.isCredentialsValid(authenticationRequest)){
             throw new BadCredentialsException();

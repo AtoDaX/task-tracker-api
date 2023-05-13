@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 @Data
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Setter
 @Getter
 @Schema(description = "Information about new Task")
